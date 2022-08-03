@@ -1,5 +1,5 @@
 {
   "name": "yame",
-  "jwtPrivateKey": "",
+  "jwtPrivateKey": "key",
   "db": "mongodb://localhost/yame"
 }

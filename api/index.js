@@ -8,10 +8,10 @@ const app = express();
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 require("./startup/routes")(app);
 require("./startup/db")();
+require("./startup/validation")();
 require("./startup/logging")(app);
 
 const PORT = process.env.PORT || 3900;
-
 const server = app.listen(PORT, () => {
   winston.info(`Listening on port ${PORT}...`);
 });

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const joi = require("joi");
-const {
-  OutflowDescription,
-  outflowDescriptionSchema,
-} = require("./outflowDescription");
-const { OutflowCategory, outflowCategorySchema } = require("./outflowCategory");
-const { User, userSchema } = require("./user");
+// const {
+//   OutflowDescription,
+//   outflowDescriptionSchema,
+// } = require("./outflowDescription");
+const { outflowCategorySchema } = require("./outflowCategory");
+const { userSchema } = require("./user");
 
 const outflowSchema = new mongoose.Schema({
   date: {
@@ -27,7 +27,7 @@ const outflowSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type: userSchema,
+    type: userSchema.pick(["_id", "firstName", "lastName"]),
     required: true,
   },
 });
@@ -36,7 +36,11 @@ const Outflow = new mongoose.model("Outflow", outflowSchema);
 
 function validateOutflow(outflow) {
   const schema = joi.object({
-    name: joi.string().min(3).max(50).required(),
+    date: joi.date().required(),
+    outflowCategoryId: joi.objectId().required(),
+    amount: joi.number().required(),
+    description: joi.string().required(),
+    userId: joi.objectId().required(),
   });
   return schema.validate(outflow);
 }

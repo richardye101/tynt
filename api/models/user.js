@@ -12,10 +12,16 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 255,
   },
-  name: {
+  firstName: {
     type: String,
     required: true,
-    minlength: 3,
+    minlength: 1,
+    maxlength: 100,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    minlength: 1,
     maxlength: 100,
   },
   phone: {
@@ -37,7 +43,13 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, name: this.name, isAdmin: this.isAdmin },
+    {
+      _id: this._id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      isAdmin: this.isAdmin,
+    },
     config.get("jwtPrivateKey")
   );
   return token;
@@ -48,7 +60,8 @@ const User = mongoose.model("User", userSchema);
 function validateUser(user) {
   const schema = joi.object({
     email: joi.string().email().min(5).max(255).required(),
-    name: joi.string().min(5).max(255).required(),
+    firstName: joi.string().min(1).max(255).required(),
+    lastName: joi.string().min(1).max(255).required(),
     phone: joi.number().required(),
     password: new pwd_complex({
       min: 8,
