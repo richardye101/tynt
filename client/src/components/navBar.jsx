@@ -1,6 +1,5 @@
-import React from "react";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   const [isNavCollapsed, setNavCollapsed] = useState(true);
@@ -8,12 +7,12 @@ const NavBar = () => {
   const handleNavCollapse = () => setNavCollapsed(!isNavCollapsed);
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <Link className="navbar-brand" to="/">
         Yame
-      </a>
+      </Link>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -22,22 +21,32 @@ const NavBar = () => {
         aria-label="Toggle navigation"
         onClick={handleNavCollapse}
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-
       <div
         className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`}
         id="navbarSupportedContent"
       >
-        <div class="navbar-nav mr-auto">
-          <NavLink class="nav-item nav-link" to="/">
+        <div className="navbar-nav mr-auto">
+          <NavLink
+            className="nav-item nav-link"
+            to="/"
+            onClick={() => handleNavCollapse()}
+          >
             Home
           </NavLink>
-          {/* <NavLink class="nav-item nav-link">
+          <NavLink
+            className="nav-item nav-link"
+            to="/outflows"
+            onClick={() => handleNavCollapse()}
+          >
+            Outflows
           </NavLink>
-          <NavLink class="nav-item dropdown">
+          {/* <NavLink className="nav-item nav-link">
+          </NavLink>
+          <NavLink className="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              className="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdown"
               role="button"
@@ -47,33 +56,33 @@ const NavBar = () => {
             >
               Dropdown
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">
+            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a className="dropdown-item" href="#">
                 Action
               </a>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 Another action
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">
                 Something else here
               </a>
             </div>
           </NavLink>
-          <NavLink class="nav-item">
-            <a class="nav-link disabled" href="#">
+          <NavLink className="nav-item">
+            <a className="nav-link disabled" href="#">
               Disabled
             </a>
           </NavLink> */}
         </div>
-        {/* <form class="form-inline my-2 my-lg-0">
+        {/* <form className="form-inline my-2 my-lg-0">
           <input
-            class="form-control mr-sm-2"
+            className="form-control mr-sm-2"
             type="search"
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button>
         </form> */}
