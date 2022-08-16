@@ -1,6 +1,7 @@
 const { User } = require("../models/user");
 const { Outflow, validate } = require("../models/outflow");
 const { OutflowCategory } = require("../models/outflowCategory");
+const { OutflowDestination } = require("../models/outflowDestination");
 const express = require("express");
 const router = express.Router();
 
@@ -32,6 +33,14 @@ router.post("/", async (req, res) => {
   if (!outflowCategory)
     return res.status(404).send("Requested outflow category cannot be found");
 
+  const outflowDestination = await OutflowDestination.findById(
+    req.body.outflowDestinationId
+  );
+  if (!outflowDestination)
+    return res
+      .status(404)
+      .send("Requested outflow Destination cannot be found");
+
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(404).send("Invalid User");
 
@@ -42,6 +51,10 @@ router.post("/", async (req, res) => {
       name: outflowCategory.name,
     },
     amount: req.body.amount,
+    outflowDestination: {
+      _id: outflowDestination._id,
+      name: outflowDestination.name,
+    },
     description: req.body.description,
     user: {
       _id: user._id,
@@ -71,6 +84,14 @@ router.put("/:id", async (req, res) => {
   if (!outflowCategory)
     return res.status(404).send("Requested outflow category cannot be found");
 
+  const outflowDestination = await OutflowDestination.findById(
+    req.body.outflowDestinationId
+  );
+  if (!outflowDestination)
+    return res
+      .status(404)
+      .send("Requested outflow Destination cannot be found");
+
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(404).send("Requested user cannot be found");
 
@@ -83,6 +104,10 @@ router.put("/:id", async (req, res) => {
         name: outflowCategory.name,
       },
       amount: req.body.amount,
+      outflowDestination: {
+        _id: outflowDestination._id,
+        name: outflowDestination.name,
+      },
       description: req.body.description,
       user: {
         _id: user._id,

@@ -21,6 +21,12 @@ const outflowSchema = new mongoose.Schema({
     required: true,
   },
   // I made this a category so if the same description can be entered for recurring outflows
+  outflowDestination: {
+    // leave it as string now, but may want to convert to category later on
+    type: String,
+    required: false,
+  },
+  // I made this a category so if the same description can be entered for recurring outflows
   description: {
     // leave it as string now, but may want to convert to category later on
     type: String,
@@ -39,6 +45,7 @@ function validateOutflow(outflow) {
     date: joi.date().required(),
     outflowCategoryId: joi.objectId().required(),
     amount: joi.number().required(),
+    outflowDestinationId: joi.objectId().required(),
     description: joi.string().required(),
     userId: joi.objectId().required(),
   });
