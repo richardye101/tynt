@@ -12,10 +12,10 @@ const TableHeader = (props) => {
     props.onSort(sortColumn);
   };
 
-  const renderSortIcon = () => {
+  const renderSortIcon = (column) => {
     const { sortColumn } = props;
     if (column.path !== sortColumn.path) return null;
-    return sortColumn.order === "acs" ? (
+    return sortColumn.order === "asc" ? (
       <i className="fa fa-sort-asc"></i>
     ) : (
       <i className="fa fa-sort-desc"></i>

@@ -6,7 +6,7 @@ import NavBar from "./components/navBar";
 import NotFound from "./components/notFound";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Outflows from "./components/outflows";
+import Outflows from "./components/outflows/outflows";
 
 function App() {
   return (

@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
-import { useReducer } from "react";
-// import OutflowTable from "./outflowTable";
-import { paginate } from "../utils/paginate";
+import React, { useReducer } from "react";
+import { DateTime } from "luxon";
+import _ from "lodash";
+import Table from "../common/table";
+import { paginate } from "../../utils/paginate";
 
-const Outflows = (props) => {
+const OutflowTable = ({ outflows, outflowCategories, outflowDestinations }) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
-      outflows: [],
-      outflowCategories: [],
-      outflowDestinations: [],
       selectedCategory: null,
       selectedDestination: null,
       curPage: 1,
@@ -17,29 +15,27 @@ const Outflows = (props) => {
       sortColumn: { path: "date", order: "desc" },
       searchQuery: "",
       columns: [
-        { path: "date", label: "Date" },
-        { path: "outflowCategory", label: "Category" },
-        { path: "amount", label: "Amount" },
-        { path: "outflowDestination", label: "Destination" },
+        {
+          path: "date",
+          label: "Date",
+          format: (item) =>
+            DateTime.fromISO(item.date)
+              // needed because datetime is midnight, which defaults to previous day for some reason :\
+              //  also assumes we only ever look at the date of a transaction, not time
+              .plus({ day: 1 })
+              .toFormat("DD"),
+        },
+        { path: "outflowCategory.name", label: "Category" },
+        {
+          path: "amount",
+          label: "Amount",
+          format: (item) => "$" + item.amount,
+        },
+        { path: "outflowDestination.name", label: "Destination" },
         { path: "description", label: "Description" },
       ],
     }
   );
-
-  useEffect(() => {
-    const setStates = async () => {
-      const outflows = await getOutflows();
-      const categories = await getCategories();
-      const destinations = await getDestinations();
-      setState({
-        outflows,
-        categories: [{ _id: "", name: "All Categories" }, ...categories],
-        destinations: [{ _id: "", name: "All Destinations" }, ...destinations],
-      });
-    };
-
-    setStates();
-  }, []);
 
   const handlePageChange = (page) => {
     setState({ curPage: page });
@@ -73,17 +69,16 @@ const Outflows = (props) => {
     const {
       curPage,
       pageSize,
-      outflows: allOutflows,
       selectedCategory,
       selectedDestination,
       sortColumn,
       searchQuery,
     } = state;
 
-    let filtered = allOutflows;
+    let filtered = outflows;
     if (selectedCategory && selectedCategory._id) {
       // if we have an id as well (single genre), then we filter, if not then dont
-      filtered = allOutflows.filter(
+      filtered = outflows.filter(
         (outflow) => outflow.outflowCategory._id === selectedCategory._id
       );
     }
@@ -101,41 +96,31 @@ const Outflows = (props) => {
     }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const outflows = paginate(sorted, curPage, pageSize);
-    console.log(filtered);
-    console.log(filtered.length);
-    return { totalCount: filtered.length, data: outflows };
+    const pagedOutflows = paginate(sorted, curPage, pageSize);
+    // console.log(outflows);
+    // console.log(outflows.length);
+    return { totalCount: filtered.length, data: pagedOutflows };
   };
-
-  const { length: count } = state.outflows;
   const {
     curPage,
     pageSize,
-    outflows: allOutflows,
     selectedCategory,
     selectedDestination,
     sortColumn,
     searchQuery,
     columns,
   } = state;
-  const { totalCount, data: outflows } = getPagedData();
+
+  const { totalCount, data: pagedData } = getPagedData();
 
   return (
-    <>
-      <h1>Here I'll put the table of outflows</h1>
-      <p>
-        Placeholder text for some large overview numbers, like current month
-        spend, current year spend, avg spend per day etc
-      </p>
-      <p>Table goes here</p>
-      <Table
-        columns={columns}
-        data={outflows}
-        sortColumn={sortColumn}
-        onSort={onSort}
-      />
-    </>
+    <Table
+      columns={columns}
+      data={pagedData}
+      sortColumn={sortColumn}
+      onSort={handleSort}
+    />
   );
 };
 
-export default Outflows;
+export default OutflowTable;

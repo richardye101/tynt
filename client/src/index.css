@@ -18,3 +18,32 @@ code {
   padding-right: 1.2rem;
   /* margin-bottom: 1rem; */
 }
+
+.emptyTable {
+  color: gray;
+  text-align: center;
+}
+
+.insight {
+  /* centers both divs within this div */
+  text-align: center;
+}
+
+.insightValue {
+  /* required so the value is beside the context and on the baseline */
+  display: inline-block;
+  padding: 0;
+  color: #064789;
+  font-weight: bold;
+  font-size: xx-large;
+}
+.insightContext {
+  /* required so the context is beside the value and on the baseline */
+  display: inline-block;
+}
+
+.center-plotly {
+  /* plotly charts will only be centered with these, need both for all three big browsers */
+  text-align: -moz-center;
+  text-align: -webkit-center;
+}

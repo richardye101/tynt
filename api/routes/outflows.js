@@ -1,4 +1,4 @@
-const { User } = require("../models/user");
+const { User, userSchema } = require("../models/user");
 const { Outflow, validate } = require("../models/outflow");
 const { OutflowCategory } = require("../models/outflowCategory");
 const { OutflowDestination } = require("../models/outflowDestination");
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   if (!outflowDestination)
     return res
       .status(404)
-      .send("Requested outflow Destination cannot be found");
+      .send("Requested outflow destination cannot be found");
 
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(404).send("Invalid User");
@@ -58,7 +58,6 @@ router.post("/", async (req, res) => {
     description: req.body.description,
     user: {
       _id: user._id,
-      email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
     },
