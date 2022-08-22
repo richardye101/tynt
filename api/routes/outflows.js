@@ -2,11 +2,14 @@ const { User, userSchema } = require("../models/user");
 const { Outflow, validate } = require("../models/outflow");
 const { OutflowCategory } = require("../models/outflowCategory");
 const { OutflowDestination } = require("../models/outflowDestination");
+const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const outflows = await Outflow.find().sort("-date");
+router.get("/", auth, async (req, res) => {
+  const outflows = await Outflow.find({ "user._id": req.user._id }).sort(
+    "-date"
+  );
   res.send(outflows);
 });
 

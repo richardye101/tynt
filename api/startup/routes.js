@@ -1,5 +1,6 @@
 const express = require("express");
 const error = require("../middleware/error");
+const auth = require("../routes/auth");
 const users = require("../routes/users");
 const outflows = require("../routes/outflows");
 const outflowDestinations = require("../routes/outflowDestinations");
@@ -11,6 +12,7 @@ const inflows = require("../routes/inflows");
 
 module.exports = function (app) {
   app.use(express.json());
+  app.use("/api/auth", auth);
   app.use("/api/users", users);
   app.use("/api/outflows", outflows);
   app.use("/api/outflowDestinations", outflowDestinations);
