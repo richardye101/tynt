@@ -1,2 +1,2 @@
-# yame
-An app for personal finance 
+# tynt
+An app for personal finance, aptly named "track your next transaction"
