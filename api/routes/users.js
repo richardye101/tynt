@@ -4,6 +4,8 @@ const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
 
+// for creating a new user and getting the current users
+
 router.get("/", async (req, res) => {
   const users = await User.find().sort();
   res.send(users);

@@ -1,13 +1,49 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 0 0 0 0;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.navbar-brand {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  /* margin-bottom: 1rem; */
+}
+
+.emptyTable {
+  color: gray;
+  text-align: center;
+}
+
+.insight {
+  /* centers both divs within this div */
+  text-align: center;
+}
+
+.insightValue {
+  /* required so the value is beside the context and on the baseline */
+  display: inline-block;
+  padding: 0;
+  color: #064789;
+  font-weight: bold;
+  font-size: xx-large;
+}
+.insightContext {
+  /* required so the context is beside the value and on the baseline */
+  display: inline-block;
+}
+
+.center-plotly {
+  /* plotly charts will only be centered with these, need both for all three big browsers */
+  text-align: -moz-center;
+  text-align: -webkit-center;
 }

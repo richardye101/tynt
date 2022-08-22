@@ -6,6 +6,7 @@ const app = express();
 // Middleware
 // set NODE_ENV in terminal
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
+require("./startup/cors")(app);
 require("./startup/routes")(app);
 require("./startup/db")();
 require("./startup/validation")();

@@ -6,6 +6,7 @@ const joi = require("joi");
 // } = require("./outflowDescription");
 const { outflowCategorySchema } = require("./outflowCategory");
 const { userSchema } = require("./user");
+const { outflowDestinationSchema } = require("./outflowDestination");
 
 const outflowSchema = new mongoose.Schema({
   date: {
@@ -21,13 +22,33 @@ const outflowSchema = new mongoose.Schema({
     required: true,
   },
   // I made this a category so if the same description can be entered for recurring outflows
+  outflowDestination: {
+    // leave it as string now, but may want to convert to category later on
+    type: outflowDestinationSchema,
+    required: false,
+  },
+  // I made this a category so if the same description can be entered for recurring outflows
   description: {
     // leave it as string now, but may want to convert to category later on
     type: String,
     required: true,
   },
   user: {
-    type: userSchema.pick(["_id", "firstName", "lastName"]),
+    // type: userSchema.pick(["firstName", "lastName"]),
+    type: new mongoose.Schema({
+      firstName: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 100,
+      },
+      lastName: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 100,
+      },
+    }),
     required: true,
   },
 });
@@ -39,6 +60,7 @@ function validateOutflow(outflow) {
     date: joi.date().required(),
     outflowCategoryId: joi.objectId().required(),
     amount: joi.number().required(),
+    outflowDestinationId: joi.objectId().required(),
     description: joi.string().required(),
     userId: joi.objectId().required(),
   });
